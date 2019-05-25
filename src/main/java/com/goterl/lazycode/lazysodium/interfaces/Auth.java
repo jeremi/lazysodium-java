@@ -100,74 +100,6 @@ public interface Auth {
         );
 
 
-        void cryptoAuthHMACSha512Keygen(byte[] key);
-
-        boolean cryptoAuthHMACSha512(
-                byte[] out,
-                byte[] in,
-                NativeLong inLen,
-                byte[] k
-        );
-
-        boolean cryptoAuthHMACSha512Verify(
-                byte[] h,
-                byte[] in,
-                NativeLong inLen,
-                byte[] k
-        );
-
-        boolean cryptoAuthHMACSha512Init(
-                Auth.StateHMAC512 state,
-                byte[] key,
-                int keyLen
-        );
-
-        boolean cryptoAuthHMACSha512Update(
-                Auth.StateHMAC512 state,
-                byte[] in,
-                NativeLong inLen
-        );
-
-        boolean cryptoAuthHMACSha512Final(
-                Auth.StateHMAC512 state,
-                byte[] out
-        );
-
-
-
-        void cryptoAuthHMACSha512256Keygen(byte[] key);
-
-        boolean cryptoAuthHMACSha512256(
-                byte[] out,
-                byte[] in,
-                NativeLong inLen,
-                byte[] k
-        );
-
-        boolean cryptoAuthHMACSha512256Verify(
-                byte[] h,
-                byte[] in,
-                NativeLong inLen,
-                byte[] k
-        );
-
-        boolean cryptoAuthHMACSha512256Init(
-                Auth.StateHMAC512256 state,
-                byte[] key,
-                int keyLen
-        );
-
-        boolean cryptoAuthHMACSha512256Update(
-                Auth.StateHMAC512256 state,
-                byte[] in,
-                NativeLong inLen
-        );
-
-        boolean cryptoAuthHMACSha512256Final(
-                Auth.StateHMAC512256 state,
-                byte[] out
-        );
-
     }
 
     interface Lazy {
@@ -221,37 +153,6 @@ public interface Auth {
         String cryptoAuthHMACShaFinal(
                 Auth.StateHMAC256 state
         ) throws SodiumException;
-
-        boolean cryptoAuthHMACShaInit(
-                Auth.StateHMAC512 state,
-                Key key
-        );
-
-        boolean cryptoAuthHMACShaUpdate(
-                Auth.StateHMAC512 state,
-                String in
-        );
-
-        String cryptoAuthHMACShaFinal(
-                Auth.StateHMAC512 state
-        ) throws SodiumException;
-
-
-
-        boolean cryptoAuthHMACShaInit(
-                Auth.StateHMAC512256 state,
-                Key key
-        );
-
-        boolean cryptoAuthHMACShaUpdate(
-                Auth.StateHMAC512256 state,
-                String in
-        );
-
-        String cryptoAuthHMACShaFinal(
-                Auth.StateHMAC512256 state
-        ) throws SodiumException;
-
 
 
     }

@@ -1536,83 +1536,13 @@ public abstract class LazySodium implements
     }
 
 
-    @Override
-    public void cryptoAuthHMACSha512Keygen(byte[] key) {
-        getSodium().crypto_auth_hmacsha512_keygen(key);
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512(byte[] out, byte[] in, NativeLong inLen, byte[] k) {
-        return successful(getSodium().crypto_auth_hmacsha512(out, in, inLen, k));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512Verify(byte[] h, byte[] in, NativeLong inLen, byte[] k) {
-        return successful(getSodium().crypto_auth_hmacsha512_verify(h, in, inLen, k));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512Init(Auth.StateHMAC512 state, byte[] key, int keyLen) {
-        return successful(getSodium().crypto_auth_hmacsha512_init(state, key, keyLen));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512Update(Auth.StateHMAC512 state, byte[] in, NativeLong inLen) {
-        return successful(getSodium().crypto_auth_hmacsha512_update(state, in, inLen));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512Final(Auth.StateHMAC512 state, byte[] out) {
-        return successful(getSodium().crypto_auth_hmacsha512_final(state, out));
-    }
-
-    @Override
-    public void cryptoAuthHMACSha512256Keygen(byte[] key) {
-        getSodium().crypto_auth_hmacsha512256_keygen(key);
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512256(byte[] out, byte[] in, NativeLong inLen, byte[] k) {
-        return successful(getSodium().crypto_auth_hmacsha512256(out, in, inLen, k));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512256Verify(byte[] h, byte[] in, NativeLong inLen, byte[] k) {
-        return successful(getSodium().crypto_auth_hmacsha512256_verify(h, in, inLen, k));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512256Init(Auth.StateHMAC512256 state, byte[] key, int keyLen) {
-        return successful(getSodium().crypto_auth_hmacsha512256_init(state, key, keyLen));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512256Update(Auth.StateHMAC512256 state, byte[] in, NativeLong inLen) {
-        return successful(getSodium().crypto_auth_hmacsha512256_update(state, in, inLen));
-    }
-
-    @Override
-    public boolean cryptoAuthHMACSha512256Final(Auth.StateHMAC512256 state, byte[] out) {
-        return successful(getSodium().crypto_auth_hmacsha512256_final(state, out));
-    }
-
 
 
     @Override
     public Key cryptoAuthHMACShaKeygen(Auth.Type type) {
-        if (type.equals(Auth.Type.SHA256)) {
-            byte[] k = new byte[Auth.HMACSHA256_KEYBYTES];
-            cryptoAuthHMACSha256Keygen(k);
-            return Key.fromBytes(k);
-        } else if (type.equals(Auth.Type.SHA512)) {
-            byte[] k = new byte[Auth.HMACSHA512_KEYBYTES];
-            cryptoAuthHMACSha512Keygen(k);
-            return Key.fromBytes(k);
-        } else {
-            byte[] k = new byte[Auth.HMACSHA512256_KEYBYTES];
-            cryptoAuthHMACSha512256Keygen(k);
-            return Key.fromBytes(k);
-        }
+        byte[] k = new byte[Auth.HMACSHA256_KEYBYTES];
+        cryptoAuthHMACSha256Keygen(k);
+        return Key.fromBytes(k);
     }
 
     @Override
@@ -1620,19 +1550,9 @@ public abstract class LazySodium implements
         byte[] inBytes = bytes(in);
         byte[] keyBytes = key.getAsBytes();
         NativeLong inByteLen = new NativeLong(inBytes.length);
-        if (type.equals(Auth.Type.SHA256)) {
-            byte[] out = new byte[Auth.HMACSHA256_BYTES];
-            cryptoAuthHMACSha256(out, inBytes, inByteLen, keyBytes);
-            return toHex(out);
-        } else if (type.equals(Auth.Type.SHA512)) {
-            byte[] out = new byte[Auth.HMACSHA512_BYTES];
-            cryptoAuthHMACSha512(out, inBytes, inByteLen, keyBytes);
-            return toHex(out);
-        } else {
-            byte[] out = new byte[Auth.HMACSHA512256_BYTES];
-            cryptoAuthHMACSha512256(out, inBytes, inByteLen, keyBytes);
-            return toHex(out);
-        }
+        byte[] out = new byte[Auth.HMACSHA256_BYTES];
+        cryptoAuthHMACSha256(out, inBytes, inByteLen, keyBytes);
+        return toHex(out);
     }
 
     @Override
@@ -1641,13 +1561,7 @@ public abstract class LazySodium implements
         byte[] inBytes = bytes(in);
         byte[] keyBytes = key.getAsBytes();
         NativeLong inByteLen = new NativeLong(inBytes.length);
-        if (type.equals(Auth.Type.SHA256)) {
-            return cryptoAuthHMACSha256Verify(authBytes, inBytes, inByteLen, keyBytes);
-        } else if (type.equals(Auth.Type.SHA512)) {
-            return cryptoAuthHMACSha512Verify(authBytes, inBytes, inByteLen, keyBytes);
-        } else {
-            return cryptoAuthHMACSha512256Verify(authBytes, inBytes, inByteLen, keyBytes);
-        }
+        return cryptoAuthHMACSha256Verify(authBytes, inBytes, inByteLen, keyBytes);
     }
 
     @Override
@@ -1673,51 +1587,6 @@ public abstract class LazySodium implements
         return toHex(out);
     }
 
-    @Override
-    public boolean cryptoAuthHMACShaInit(Auth.StateHMAC512 state, Key key) {
-        byte[] keyBytes = key.getAsBytes();
-        return cryptoAuthHMACSha512Init(state, keyBytes, keyBytes.length);
-    }
-
-    @Override
-    public boolean cryptoAuthHMACShaUpdate(Auth.StateHMAC512 state, String in) {
-        byte[] inBytes = bytes(in);
-        NativeLong inByteLen = new NativeLong(inBytes.length);
-        return cryptoAuthHMACSha512Update(state, inBytes, inByteLen);
-    }
-
-    @Override
-    public String cryptoAuthHMACShaFinal(Auth.StateHMAC512 state) throws SodiumException {
-        byte[] out = new byte[Auth.HMACSHA512_BYTES];
-        boolean res = cryptoAuthHMACSha512Final(state, out);
-        if (!res) {
-            throw new SodiumException("Could not finalise HMAC Sha 512.");
-        }
-        return toHex(out);
-    }
-
-    @Override
-    public boolean cryptoAuthHMACShaInit(Auth.StateHMAC512256 state, Key key) {
-        byte[] keyBytes = key.getAsBytes();
-        return cryptoAuthHMACSha512256Init(state, keyBytes, keyBytes.length);
-    }
-
-    @Override
-    public boolean cryptoAuthHMACShaUpdate(Auth.StateHMAC512256 state, String in) {
-        byte[] inBytes = bytes(in);
-        NativeLong inByteLen = new NativeLong(inBytes.length);
-        return cryptoAuthHMACSha512256Update(state, inBytes, inByteLen);
-    }
-
-    @Override
-    public String cryptoAuthHMACShaFinal(Auth.StateHMAC512256 state) throws SodiumException {
-        byte[] out = new byte[Auth.HMACSHA512256_BYTES];
-        boolean res = cryptoAuthHMACSha512256Final(state, out);
-        if (!res) {
-            throw new SodiumException("Could not finalise HMAC Sha 512256.");
-        }
-        return toHex(out);
-    }
 
     //// -------------------------------------------|
     //// SHORT HASH
