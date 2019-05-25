@@ -147,8 +147,6 @@ public class Sodium {
 
     public native int crypto_hash_sha256(byte[] out, byte[] in, long inLen);
 
-    public native int crypto_hash_sha512(byte[] out, byte[] in, long inLen);
-
 
     public native int crypto_hash_sha256_init(Hash.State256 state);
 
@@ -157,15 +155,6 @@ public class Sodium {
                                                 long inLen);
 
     public native int crypto_hash_sha256_final(Hash.State256 state, byte[] out);
-
-
-    public native int crypto_hash_sha512_init(Hash.State512 state);
-
-    public native int crypto_hash_sha512_update(Hash.State512 state,
-                                                byte[] in,
-                                                long inLen);
-
-    public native int crypto_hash_sha512_final(Hash.State512 state, byte[] out);
 
 
 

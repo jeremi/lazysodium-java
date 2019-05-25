@@ -35,8 +35,6 @@ public interface Hash {
 
         boolean cryptoHashSha256(byte[] out, byte[] in, long inLen);
 
-        boolean cryptoHashSha512(byte[] out, byte[] in, long inLen);
-
 
         boolean cryptoHashSha256Init(Hash.State256 state);
 
@@ -47,33 +45,18 @@ public interface Hash {
         boolean cryptoHashSha256Final(Hash.State256 state, byte[] out);
 
 
-        boolean cryptoHashSha512Init(Hash.State512 state);
-
-        boolean cryptoHashSha512Update(Hash.State512 state,
-                                       byte[] in,
-                                       long inLen);
-
-        boolean cryptoHashSha512Final(Hash.State512 state, byte[] out);
-
     }
 
     interface Lazy {
 
         String cryptoHashSha256(String message) throws SodiumException;
 
-        String cryptoHashSha512(String message) throws SodiumException;
 
         boolean cryptoHashSha256Init(Hash.State256 state);
 
         boolean cryptoHashSha256Update(Hash.State256 state, String messagePart);
 
         String cryptoHashSha256Final(Hash.State256 state) throws SodiumException;
-
-        boolean cryptoHashSha512Init(Hash.State512 state);
-
-        boolean cryptoHashSha512Update(Hash.State512 state, String messagePart);
-
-        String cryptoHashSha512Final(Hash.State512 state) throws SodiumException;
 
     }
 

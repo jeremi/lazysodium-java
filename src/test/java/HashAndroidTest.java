@@ -30,19 +30,6 @@ public class HashAndroidTest extends BaseTest {
         TestCase.assertNotSame(hashed1, hashed2);
     }
 
-    @Test
-    public void sha512Compare() throws SodiumException {
-        String hash1 = lazySodium.cryptoHashSha512(MESSAGE);
-        String hash2 = lazySodium.cryptoHashSha512(MESSAGE);
-        TestCase.assertNotSame(hash1, hash2);
-    }
-
-    @Test
-    public void sha512IsLonger() throws SodiumException {
-        String hash1 = lazySodium.cryptoHashSha256(MESSAGE);
-        String hash2 = lazySodium.cryptoHashSha512(MESSAGE);
-        TestCase.assertTrue(hash1.length() < hash2.length());
-    }
 
     @Test
     public void multipartSha256() throws SodiumException {
@@ -57,17 +44,4 @@ public class HashAndroidTest extends BaseTest {
         TestCase.assertNotNull(hash);
     }
 
-    @Test
-    public void multipartSha512() throws SodiumException {
-        Hash.State512 state = new Hash.State512.ByReference();
-        lazySodium.cryptoHashSha512Init(state);
-
-        lazySodium.cryptoHashSha512Update(state, M1);
-        lazySodium.cryptoHashSha512Update(state, M2);
-        lazySodium.cryptoHashSha512Update(state, "more text to be hashed");
-
-        String hash = lazySodium.cryptoHashSha512Final(state);
-
-        TestCase.assertNotNull(hash);
-    }
 }

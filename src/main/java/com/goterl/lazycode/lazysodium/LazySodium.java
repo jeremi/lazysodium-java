@@ -508,25 +508,6 @@ public abstract class LazySodium implements
         return successful(getSodium().crypto_hash_sha256_final(state, out));
     }
 
-    @Override
-    public boolean cryptoHashSha512(byte[] out, byte[] in, long inLen) {
-        return successful(getSodium().crypto_hash_sha512(out, in, inLen));
-    }
-
-    @Override
-    public boolean cryptoHashSha512Init(Hash.State512 state) {
-        return successful(getSodium().crypto_hash_sha512_init(state));
-    }
-
-    @Override
-    public boolean cryptoHashSha512Update(Hash.State512 state, byte[] in, long inLen) {
-        return successful(getSodium().crypto_hash_sha512_update(state, in, inLen));
-    }
-
-    @Override
-    public boolean cryptoHashSha512Final(Hash.State512 state, byte[] out) {
-        return successful(getSodium().crypto_hash_sha512_final(state, out));
-    }
 
     // -- lazy
 
@@ -541,15 +522,6 @@ public abstract class LazySodium implements
         return toHex(hashedBytes);
     }
 
-    @Override
-    public String cryptoHashSha512(String message) throws SodiumException {
-        byte[] msgBytes = bytes(message);
-        byte[] hashedBytes = new byte[Hash.SHA512_BYTES];
-        if (!cryptoHashSha512(hashedBytes, msgBytes, msgBytes.length)) {
-            throw new SodiumException("Unsuccessful sha-512 hash.");
-        }
-        return toHex(hashedBytes);
-    }
 
 
     @Override
@@ -567,21 +539,6 @@ public abstract class LazySodium implements
         return toHex(finalHash);
     }
 
-
-    @Override
-    public boolean cryptoHashSha512Update(Hash.State512 state, String messagePart) {
-        byte[] msgBytes = bytes(messagePart);
-        return cryptoHashSha512Update(state, msgBytes, msgBytes.length);
-    }
-
-    @Override
-    public String cryptoHashSha512Final(Hash.State512 state) throws SodiumException {
-        byte[] finalHash = new byte[Hash.SHA512_BYTES];
-        if (!cryptoHashSha512Final(state, finalHash)) {
-            throw new SodiumException("Could not finalise sha-512.");
-        }
-        return toHex(finalHash);
-    }
 
 
 
