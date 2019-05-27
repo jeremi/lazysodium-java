@@ -58,30 +58,30 @@ public class SignAndroidTest extends BaseTest {
     }
 
 
-    @Test
-    public void signMessage() throws SodiumException {
-        String message = "This should get signed";
-
-        KeyPair keyPair = cryptoSignLazy.cryptoSignKeypair();
-        String signed = cryptoSignLazy.cryptoSign(message, keyPair.getSecretKey().getAsHexString());
-
-        // Now we can verify the signed message.
-        String resultingMessage = cryptoSignLazy.cryptoSignOpen(signed, keyPair.getPublicKey());
-
-        TestCase.assertNotNull(resultingMessage);
-    }
-
-
-    @Test
-    public void signDetached() throws SodiumException {
-        String message = "sign this please";
-        KeyPair keyPair = lazySodium.cryptoSignKeypair();
-
-        String signature = lazySodium.cryptoSignDetached(message, keyPair.getSecretKey());
-        boolean result = lazySodium.cryptoSignVerifyDetached(signature, message, keyPair.getPublicKey());
-
-        TestCase.assertTrue(result);
-    }
+//    @Test
+//    public void signMessage() throws SodiumException {
+//        String message = "This should get signed";
+//
+//        KeyPair keyPair = cryptoSignLazy.cryptoSignKeypair();
+//        String signed = cryptoSignLazy.cryptoSign(message, keyPair.getSecretKey().getAsHexString());
+//
+//        // Now we can verify the signed message.
+//        String resultingMessage = cryptoSignLazy.cryptoSignOpen(signed, keyPair.getPublicKey());
+//
+//        TestCase.assertNotNull(resultingMessage);
+//    }
+//
+//
+//    @Test
+//    public void signDetached() throws SodiumException {
+//        String message = "sign this please";
+//        KeyPair keyPair = lazySodium.cryptoSignKeypair();
+//
+//        String signature = lazySodium.cryptoSignDetached(message, keyPair.getSecretKey());
+//        boolean result = lazySodium.cryptoSignVerifyDetached(signature, message, keyPair.getPublicKey());
+//
+//        TestCase.assertTrue(result);
+//    }
 
     @Test
     public void convertEd25519ToCurve25519() throws SodiumException {
