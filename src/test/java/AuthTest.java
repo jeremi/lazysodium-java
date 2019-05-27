@@ -21,67 +21,6 @@ import static org.junit.Assert.assertTrue;
 public class AuthTest extends BaseTest {
 
 
-    @Test
-    public void auth256KeygenAndVerify() {
-        String m = "A simple message.";
 
-        Key k = lazySodium.cryptoAuthHMACShaKeygen(Auth.Type.SHA256);
-        String shaResult = lazySodium.cryptoAuthHMACSha(Auth.Type.SHA256, m, k);
-        boolean isTrue = lazySodium.cryptoAuthHMACShaVerify(Auth.Type.SHA256, shaResult, m, k);
-        assertTrue(isTrue);
-    }
-
-    @Test
-    public void auth512KeygenAndVerify() {
-        String m = "A simple message.";
-
-        Key k = lazySodium.cryptoAuthHMACShaKeygen(Auth.Type.SHA512);
-        String shaResult = lazySodium.cryptoAuthHMACSha(Auth.Type.SHA512, m, k);
-        boolean isTrue = lazySodium.cryptoAuthHMACShaVerify(Auth.Type.SHA512, shaResult, m, k);
-        assertTrue(isTrue);
-    }
-
-    @Test
-    public void auth512256KeygenAndVerify() {
-        String m = "Follow us on twitter @terlacious";
-
-        Key k = lazySodium.cryptoAuthHMACShaKeygen(Auth.Type.SHA512256);
-        String shaResult = lazySodium.cryptoAuthHMACSha(Auth.Type.SHA512256, m, k);
-        boolean isTrue = lazySodium.cryptoAuthHMACShaVerify(Auth.Type.SHA512256, shaResult, m, k);
-        assertTrue(isTrue);
-    }
-
-    @Test
-    public void auth256StreamKeygenAndVerify() throws SodiumException {
-        String m = "Terl is ";
-        String m2 = "the best";
-
-        Key k = lazySodium.cryptoAuthHMACShaKeygen(Auth.Type.SHA256);
-        Auth.StateHMAC256 state = new Auth.StateHMAC256.ByReference();
-
-
-        boolean res = lazySodium.cryptoAuthHMACShaInit(state, k);
-        if (!res) {
-            TestCase.fail("Could not initialise HMAC Sha.");
-            return;
-        }
-
-        boolean res2 = lazySodium.cryptoAuthHMACShaUpdate(state, m);
-        if (!res2) {
-            TestCase.fail("Could not update HMAC Sha.");
-            return;
-        }
-
-        boolean res3 = lazySodium.cryptoAuthHMACShaUpdate(state, m2);
-        if (!res3) {
-            TestCase.fail("Could not update HMAC Sha (part 2).");
-            return;
-        }
-
-        String sha = lazySodium.cryptoAuthHMACShaFinal(state);
-
-        boolean isTrue = lazySodium.cryptoAuthHMACShaVerify(Auth.Type.SHA256, sha, m + m2, k);
-        assertTrue(isTrue);
-    }
 
 }

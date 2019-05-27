@@ -566,38 +566,6 @@ public class Sodium {
     public native void crypto_auth_keygen(byte[] k);
 
 
-    public native void crypto_auth_hmacsha256_keygen(byte[] key);
-
-    public native int crypto_auth_hmacsha256(
-            byte[] out,
-            byte[] in,
-            NativeLong inLen,
-            byte[] k
-    );
-
-    public native int crypto_auth_hmacsha256_verify(
-            byte[] h,
-            byte[] in,
-            NativeLong inLen,
-            byte[] k
-    );
-
-    public native int crypto_auth_hmacsha256_init(
-            Auth.StateHMAC256 state,
-            byte[] key,
-            int keyLen
-    );
-
-    public native int crypto_auth_hmacsha256_update(
-            Auth.StateHMAC256 state,
-            byte[] in,
-            NativeLong inLen
-    );
-
-    public native int crypto_auth_hmacsha256_final(
-            Auth.StateHMAC256 state,
-            byte[] out
-    );
 
 
     //// -------------------------------------------|
